@@ -166,6 +166,6 @@ pub fn get_full_file_name(path: &Path, filename_format: &str, encoding: Encoding
             .file_stem()
             .unwrap_or_default()
             .to_string_lossy();
-        base_dir.join(format!("{}.{}", stem, encoding))
+        base_dir.join(format!("{stem}.{encoding}"))
     }
 }
