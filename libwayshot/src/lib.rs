@@ -745,7 +745,7 @@ impl WayshotConnection {
     }
 
     /// Get a FrameCopy instance with screenshot pixel data for any wl_output object.
-    #[tracing::instrument(skip_all, fields(output = format!("{output_info}"), region = region = capture_region.map(|r| format!("{r}")).unwrap_or("fullscreen".to_string())))]
+    #[tracing::instrument(skip_all, fields(output = format!("{output_info}"), region = capture_region.map(|r| format!("{r}")).unwrap_or("fullscreen".to_string())))]
     fn capture_frame_copy(
         &self,
         cursor_overlay: bool,
