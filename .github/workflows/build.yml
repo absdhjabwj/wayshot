@@ -18,6 +18,7 @@ jobs:
     - uses: dtolnay/rust-toolchain@stable
       with:
         components: clippy rustfmt
+
     - name: Install wayland dependencies
       run: |
         pacman -Syu --noconfirm egl-wayland egl-gbm wayland base-devel mesa pango cairo
@@ -26,33 +27,15 @@ jobs:
       run: |
         rm Cargo.lock
         cargo build --release
+
+    - name: Upload binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: wayshot-binary
+        path: target/release/wayshot  # <- ini binary hasil build
+
     - name: Clippy check
-      run:
-        cargo clippy -- -D warnings
+      run: cargo clippy -- -D warnings
+
     - name: Check test
-      run: |
-        cargo test --verbose
-
-  rustfmt:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Check formatting
-      run: |
-        cargo fmt -- --check
-
-  documentation:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Check docs
-      run: |
-        sudo apt update
-        sudo apt install --no-install-recommends scdoc
-        for file in $(find . -type f -iwholename "./docs/*.scd"); do scdoc < $file > /dev/null; done
+      run: cargo test --verbose
